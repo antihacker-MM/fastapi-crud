@@ -2,7 +2,7 @@ from models import User
 from schema import *
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from exceptions import UserNotFoundException
+from exceptions import UserNotFoundException, DetailedHTTPException
 
 
 def get_user_from_db(*,username: str, db: Session):
