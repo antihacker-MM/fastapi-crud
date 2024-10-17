@@ -21,7 +21,7 @@ def create_user_in_db(*,data: UserCreateSchema, db: Session):
 
 
 def change_password_in_db(*,current_username:str,data: UserUpdateSchema,db: Session):
-    is_correct_user = db.query(User).filter_by(username=current_username,password=data.password).first()
+    is_correct_user = db.query(User).filter_by(username=current_username,hash_password=hash_passwd(data.password)).first()
     if not is_correct_user:
         raise UserNotFoundException()
     db.query(User).filter(User.username==current_username).update({"password":data.new_password})
