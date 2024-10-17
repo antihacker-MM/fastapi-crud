@@ -3,7 +3,7 @@ from schema import *
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from exceptions import UserNotFoundException, DetailedHTTPException
-
+from hash_password import hash_passwd
 
 def get_user_from_db(*,username: str, db: Session):
     user = db.query(User).filter(User.username==username).first()
@@ -13,7 +13,7 @@ def get_user_from_db(*,username: str, db: Session):
 
 
 def create_user_in_db(*,data: UserCreateSchema, db: Session):
-    new_user = User(username=data.username,password=data.password)
+    new_user = User(username=data.username,password=hash_passwd(data.password))
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
